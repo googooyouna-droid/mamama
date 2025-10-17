@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="마음일기장 - 정서 교류형 부모·자녀 일기 앱">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="마음일기장">
+    <title>마음일기장 - 정서 교류형 부모·자녀 일기 앱</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 로딩 화면 -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-icon">🌱</div>
+            <div class="loading-text">마음일기장을 불러오는 중...</div>
+        </div>
+    </div>
+
+    <!-- 앱 컨테이너 -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- 홈 화면 (로그인) -->
+        <div id="home-screen" class="screen">
+            <div class="home-content">
+                <!-- 로고 영역 -->
+                <div class="logo-section">
+                    <div class="logo-icon">🌱</div>
+                    <h1 class="app-title">마음일기장</h1>
+                    <p class="app-subtitle">정서 교류형 부모·자녀 일기 앱</p>
+                </div>
+
+                <!-- PIN 입력 영역 -->
+                <div class="login-section">
+                    <div class="input-card">
+                        <input 
+                            type="password" 
+                            id="pin-input" 
+                            class="pin-input" 
+                            placeholder="가족 암호를 입력하세요 🔒"
+                            maxlength="6"
+                            inputmode="numeric"
+                        >
+                        <button id="enter-btn" class="enter-btn">마음공간으로 들어가기</button>
+                    </div>
+                </div>
+
+                <!-- 역할 선택 영역 -->
+                <div class="role-section">
+                    <h3 class="role-title">누구로 들어가시나요?</h3>
+                    <div class="role-cards">
+                        <div class="role-card" data-role="parent">
+                            <div class="role-icon">👨‍👩‍👧‍👦</div>
+                            <div class="role-name">부모</div>
+                            <div class="role-subtitle">엄마/아빠</div>
+                        </div>
+                        <div class="role-card" data-role="child">
+                            <div class="role-icon">👶</div>
+                            <div class="role-name">자녀</div>
+                            <div class="role-subtitle">아이</div>
+                        </div>
+                    </div>
+                    <div class="welcome-message">
+                        오늘의 마음을 씨앗처럼 심어볼까요?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 달력 화면 -->
+        <div id="calendar-screen" class="screen" style="display: none;">
+            <div class="app-bar">
+                <button class="icon-btn" id="home-btn">🏠</button>
+                <h2 class="screen-title" id="month-title">2025년 10월</h2>
+                <div class="app-bar-actions">
+                    <button class="icon-btn" id="help-btn">❓</button>
+                    <button class="icon-btn" id="refresh-btn">🔄</button>
+                </div>
+            </div>
+
+            <div class="calendar-content">
+                <!-- 사용자 정보 -->
+                <div class="user-info">
+                    <div class="user-greeting" id="user-greeting">부모님, 안녕하세요! 👨‍👩‍👧‍👦</div>
+                </div>
+
+                <!-- 달력 -->
+                <div class="calendar-container">
+                    <div class="weekday-header">
+                        <div class="weekday">일</div>
+                        <div class="weekday">월</div>
+                        <div class="weekday">화</div>
+                        <div class="weekday">수</div>
+                        <div class="weekday">목</div>
+                        <div class="weekday">금</div>
+                        <div class="weekday">토</div>
+                    </div>
+                    <div id="calendar-grid" class="calendar-grid">
+                        <!-- 날짜들이 동적으로 생성됩니다 -->
+                    </div>
+                </div>
+
+                <!-- 감정 통계 -->
+                <div class="emotion-stats">
+                    <h3 class="stats-title">이번 달 감정 통계</h3>
+                    <div id="emotion-stats-content" class="stats-content">
+                        아직 작성된 일기가 없습니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 일기 화면 -->
+        <div id="diary-screen" class="screen" style="display: none;">
+            <div class="app-bar">
+                <button class="icon-btn" id="back-btn">◀</button>
+                <h2 class="screen-title" id="diary-date-title">2025년 10월 17일</h2>
+                <div class="app-bar-actions">
+                    <button class="icon-btn" id="save-btn">💾</button>
+                </div>
+            </div>
+
+            <div class="diary-content">
+                <!-- 자녀 일기 영역 -->
+                <div class="diary-section child-section">
+                    <div class="section-header">
+                        <h3 class="section-title">👶 자녀 일기</h3>
+                        <div class="emotion-selector" id="child-emotion-selector">
+                            <button class="emotion-btn" data-emotion="😊">😊</button>
+                            <button class="emotion-btn" data-emotion="😢">😢</button>
+                            <button class="emotion-btn" data-emotion="😡">😡</button>
+                            <button class="emotion-btn" data-emotion="😴">😴</button>
+                            <button class="emotion-btn" data-emotion="😍">😍</button>
+                            <button class="emotion-btn" data-emotion="😐">😐</button>
+                        </div>
+                    </div>
+                    <textarea 
+                        id="child-diary-text" 
+                        class="diary-textarea" 
+                        placeholder="오늘 하루는 어땠나요? 마음을 적어보세요..."
+                        disabled
+                    ></textarea>
+                    <div class="photo-section">
+                        <button class="photo-add-btn" id="child-photo-btn" disabled>📎 사진 추가</button>
+                        <input type="file" id="child-photo-input" accept="image/*" multiple style="display:none">
+                        <div id="child-photos" class="photo-grid"></div>
+                    </div>
+                </div>
+
+                <!-- 부모 일기 영역 -->
+                <div class="diary-section parent-section">
+                    <div class="section-header">
+                        <h3 class="section-title">👨‍👩‍👧‍👦 부모 일기</h3>
+                        <div class="emotion-selector" id="parent-emotion-selector">
+                            <button class="emotion-btn" data-emotion="😊">😊</button>
+                            <button class="emotion-btn" data-emotion="😢">😢</button>
+                            <button class="emotion-btn" data-emotion="😡">😡</button>
+                            <button class="emotion-btn" data-emotion="😴">😴</button>
+                            <button class="emotion-btn" data-emotion="😍">😍</button>
+                            <button class="emotion-btn" data-emotion="😐">😐</button>
+                        </div>
+                    </div>
+                    <textarea 
+                        id="parent-diary-text" 
+                        class="diary-textarea" 
+                        placeholder="오늘 하루는 어땠나요? 마음을 적어보세요..."
+                        disabled
+                    ></textarea>
+                    <div class="photo-section">
+                        <button class="photo-add-btn" id="parent-photo-btn" disabled>📎 사진 추가</button>
+                        <input type="file" id="parent-photo-input" accept="image/*" multiple style="display:none">
+                        <div id="parent-photos" class="photo-grid"></div>
+                    </div>
+                </div>
+
+                <!-- 댓글 섹션 -->
+                <div class="comment-section">
+                    <h3 class="comment-title">💬 댓글</h3>
+                    <div id="comments-list" class="comments-list">
+                        <!-- 댓글이 동적으로 생성됩니다 -->
+                    </div>
+                    <div class="comment-input-area">
+                        <select id="comment-target" class="comment-target-select">
+                            <option value="child">자녀 일기에 댓글</option>
+                            <option value="parent">부모 일기에 댓글</option>
+                        </select>
+                        <div class="comment-input-box">
+                            <textarea 
+                                id="comment-input" 
+                                class="comment-input" 
+                                placeholder="따뜻한 마음을 전해보세요..."
+                                rows="2"
+                            ></textarea>
+                            <button id="comment-submit-btn" class="comment-submit-btn">작성</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 알림 메시지 -->
+    <div id="snackbar" class="snackbar"></div>
+
+    <!-- 모달 (감정 규칙 안내) -->
+    <div id="emotion-rules-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>감정 표시 규칙</h3>
+                <button class="modal-close" id="modal-close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="rule-item">
+                    <div class="rule-emoji">😊</div>
+                    <div class="rule-text">
+                        <strong>같은 감정</strong>
+                        <p>부모와 자녀가 같은 감정을 선택했을 때</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-emoji">😐</div>
+                    <div class="rule-text">
+                        <strong>다른 감정</strong>
+                        <p>부모와 자녀가 다른 감정을 선택했을 때</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-emoji">😊 / 😢</div>
+                    <div class="rule-text">
+                        <strong>한쪽만 선택</strong>
+                        <p>부모 또는 자녀 중 한쪽만 선택했을 때</p>
+                    </div>
+                </div>
+                <div class="rule-item">
+                    <div class="rule-emoji">🌱</div>
+                    <div class="rule-text">
+                        <strong>둘 다 없음</strong>
+                        <p>아무도 감정을 선택하지 않았을 때</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript 모듈 -->
+    <script src="utils.js"></script>
+    <script src="models.js"></script>
+    <script src="db.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
