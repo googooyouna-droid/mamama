@@ -1,140 +1,94 @@
-# 🌱 마음일기장 (Mind Diary)
+# 🌱 마음일기장 - 웹 버전
 
-> 부모와 자녀가 하루의 감정과 생각을 공유하며 정서적 교감을 형성하는 디지털 일기장
+> 순수 HTML, CSS, JavaScript로 구현된 정서 교류형 부모·자녀 일기 앱
 
 ## 📱 프로젝트 개요
 
-마음일기장은 Flutter Web으로 개발된 정서 교류형 부모·자녀 일기 앱입니다. 가족 PIN 기반 접근으로 비공개 공간을 제공하며, 부모와 자녀가 각자의 영역에서 일기를 작성하고 댓글과 감정 스티커로 소통할 수 있습니다.
+마음일기장은 부모와 자녀가 하루의 감정과 생각을 공유하며 정서적 교감을 형성하는 디지털 일기장입니다. Flutter 앱에서 순수 웹 기술로 변환되어, 설치 없이 브라우저에서 바로 사용할 수 있습니다.
 
 ### ✨ 주요 기능
 
 - 🔐 **가족 PIN 기반 로그인**: 한 가족 전용 비공개 공간
 - 👥 **역할별 권한 관리**: 부모/자녀 구분된 일기 작성 영역
 - 📅 **감정 달력**: 날짜별 감정 이모티콘으로 한 달의 마음 기록
-- 💬 **3단 댓글 시스템**: 댓글 → 답글 → 재답글 구조
-- 📷 **사진 첨부**: 하루의 기록에 사진 추가
-- 🔄 **오프라인 동기화**: 네트워크 없이도 작성, 복구 시 자동 업로드
+- 💬 **3단 댓글 시스템**: 댓글 → 답글 구조
+- 📷 **사진 첨부**: 하루의 기록에 사진 추가 (base64 인코딩)
+- 💾 **로컬 저장**: localStorage 기반 데이터 저장
 - 🎨 **감정 스티커**: ❤️, 👍, 🌸, 😊, 🎉로 감정 표현
-
-## 🛠️ 기술 스택
-
-- **Frontend**: Flutter Web
-- **Backend**: Firebase (Auth, Firestore, Storage, Hosting)
-- **상태관리**: Provider
-- **라우팅**: GoRouter
-- **로컬저장**: SharedPreferences
-- **네트워크**: Connectivity Plus
+- 📱 **반응형 디자인**: 모바일, 태블릿, PC 모두 지원
 
 ## 🚀 빠른 시작
 
-### 1. 사전 준비
-```bash
-# Flutter SDK 설치 (3.0+)
-# Firebase CLI 설치
-npm install -g firebase-tools
+### 방법 1: 로컬 서버로 실행 (권장)
 
-# Firebase 로그인
-firebase login
+#### Python 사용
+```bash
+# Python 3가 설치되어 있다면
+python -m http.server 8000
+
+# 또는 Python 2
+python -m SimpleHTTPServer 8000
 ```
 
-### 2. 프로젝트 설정
+#### Node.js 사용
 ```bash
-# 저장소 클론
-git clone <repository-url>
-cd mind_diary
+# npx로 serve 실행
+npx serve
 
-# 의존성 설치
-flutter pub get
-
-# Firebase 프로젝트 연결
-firebase use your-project-id
+# 또는 http-server 사용
+npx http-server
 ```
 
-### 3. Firebase 설정
-1. [Firebase Console](https://console.firebase.google.com/)에서 프로젝트 생성
-2. 다음 서비스 활성화:
-   - Authentication (익명 로그인)
-   - Firestore Database
-   - Storage
-   - Hosting
-3. `lib/firebase_options.dart` 파일의 API 키 업데이트
+#### VS Code Live Server 확장 사용
+1. VS Code에서 "Live Server" 확장 설치
+2. `index.html` 파일을 우클릭
+3. "Open with Live Server" 선택
 
-### 4. 로컬 실행
-```bash
-# 개발 서버 시작
-flutter run -d chrome
+### 방법 2: 직접 열기
 
-# 또는 웹 브라우저에서 실행
-flutter run -d web-server --web-port 8080
-```
+대부분의 기능은 `index.html` 파일을 더블클릭해서 브라우저에서 바로 열어도 작동합니다.
 
-### 5. 배포
-```bash
-# 자동 배포 스크립트 실행
-# Windows: deploy.bat
-# macOS/Linux: ./deploy.sh
-
-# 또는 수동 배포
-flutter build web --release
-firebase deploy --only hosting
-```
+**단, 파일 업로드 기능은 로컬 서버 환경에서만 정상 작동합니다.**
 
 ## 📁 프로젝트 구조
 
 ```
-lib/
-├── main.dart                 # 앱 진입점
-├── firebase_options.dart     # Firebase 설정
-├── models/                   # 데이터 모델
-│   ├── diary_entry.dart
-│   ├── comment.dart
-│   ├── photo.dart
-│   └── app_state.dart
-├── state/                    # 상태 관리
-│   └── app_state_provider.dart
-├── services/                 # 서비스 레이어
-│   ├── firebase_service.dart
-│   ├── storage_service.dart
-│   └── sync_service.dart
-└── ui/                       # 사용자 인터페이스
-    ├── screens/
-    │   ├── home_screen.dart
-    │   ├── calendar_screen.dart
-    │   └── diary_screen.dart
-    └── widgets/
-        ├── comment_section.dart
-        ├── photo_attachment.dart
-        └── offline_status_bar.dart
+mind_diary/
+├── index.html          # 메인 HTML 파일
+├── styles.css          # 스타일시트
+├── app.js             # 메인 애플리케이션 로직
+├── models.js          # 데이터 모델 (DiaryEntry, Comment 등)
+├── db.js              # localStorage 데이터베이스
+├── utils.js           # 유틸리티 함수들
+└── 웹버전_README.md   # 이 파일
 ```
 
 ## 🎯 사용 방법
 
 ### 1. 로그인
-- 가족 PIN 입력 (예: "1234")
-- 부모 또는 자녀 역할 선택
+1. 가족 PIN 입력 (4자리 이상, 예: "1234")
+2. 부모 또는 자녀 역할 선택
+3. "마음공간으로 들어가기" 버튼 클릭
 
-### 2. 일기 작성
-- 달력에서 날짜 클릭
-- 본인 영역에 텍스트 작성
+### 2. 감정 달력
+- 월별로 작성된 일기의 감정 이모티콘 확인
+- 날짜를 클릭하면 해당 날짜의 일기 작성/보기
+- 감정 통계로 이번 달 감정 추이 파악
+- ❓ 버튼으로 감정 표시 규칙 확인
+
+### 3. 일기 작성
+- **본인 영역에만 작성 가능**
+  - 부모로 로그인 → 부모 일기만 작성 가능
+  - 자녀로 로그인 → 자녀 일기만 작성 가능
 - 감정 이모티콘 선택 (😊, 😢, 😡, 😴, 😍, 😐)
-- 사진 첨부 (📎 버튼)
+- 텍스트 작성
+- 사진 첨부 (최대 5장, 각 5MB 이하)
+- 💾 버튼으로 저장
 
-### 3. 소통하기
-- 상대방 영역에 댓글 작성
-- 답글과 재답글 (3단까지)
-- 감정 스티커로 반응 표현
-
-### 4. 감정 달력
-- 월별 감정 이모티콘 확인
-- 감정 통계 하단 표시
-- 도움말(?) 버튼으로 규칙 확인
-
-## 🔄 오프라인 지원
-
-- **자동 감지**: 네트워크 상태 실시간 감지
-- **로컬 저장**: 오프라인 시 SharedPreferences에 임시 저장
-- **자동 동기화**: 네트워크 복구 시 Firebase에 자동 업로드
-- **상태 표시**: 상단 상태바로 현재 상황 표시
+### 4. 댓글 및 소통
+- 상대방 일기에 댓글 작성
+- 댓글에 답글 달기
+- 감정 스티커로 반응 표현 (❤️, 👍, 🌸, 😊, 🎉)
 
 ## 🎨 감정 규칙
 
@@ -142,79 +96,141 @@ lib/
 |------|------|------|
 | 같은 감정 | 😊 | 부모와 자녀가 같은 감정 선택 |
 | 다른 감정 | 😐 | 부모와 자녀가 다른 감정 선택 |
-| 한쪽만 선택 | 😊 | 부모 또는 자녀 중 한쪽만 선택 |
+| 한쪽만 선택 | 😊/😢 | 부모 또는 자녀 중 한쪽만 선택 |
 | 둘 다 없음 | 🌱 | 둘 다 감정을 선택하지 않음 |
 
-## 📊 Firebase 데이터 구조
+## 💾 데이터 저장
 
-```json
-{
-  "families": {
-    "{familyId}": {
-      "entries": {
-        "{date}": {
-          "child": {
-            "text": "일기 내용",
-            "emotion": "😊",
-            "photos": [...],
-            "lastModified": "timestamp"
-          },
-          "parent": {
-            "text": "일기 내용",
-            "emotion": "😊",
-            "photos": [...],
-            "lastModified": "timestamp"
-          },
-          "comments": [...],
-          "calendarEmoji": "😊",
-          "createdAt": "timestamp",
-          "updatedAt": "timestamp"
-        }
-      }
-    }
-  }
-}
+### 저장 방식
+- **localStorage** 기반으로 브라우저에 데이터 저장
+- 인터넷 연결 없이도 작동
+- 브라우저의 개인정보 보호 모드에서는 사용 제한될 수 있음
+
+### 데이터 구조
+```
+localStorage:
+  - mind_diary_app_state: 앱 상태 (로그인 정보)
+  - mind_diary_family_{PIN}: 가족별 일기 데이터
 ```
 
-## 🧪 테스트
+### 주의사항
+⚠️ **브라우저 데이터를 삭제하면 일기가 모두 사라집니다!**
+- 정기적으로 백업을 권장합니다
+- 개발자 도구(F12) → Application → Local Storage에서 확인 가능
 
-배포 전 반드시 [QA 체크리스트](./QA_체크리스트.md)를 실행하세요:
+### 백업 방법
+```javascript
+// 브라우저 콘솔(F12)에서 실행
+// 데이터 백업
+db.exportData('가족PIN');
 
-- ✅ 역할별 권한 테스트
-- ✅ 달력 감정 이모티콘 테스트
-- ✅ 댓글 3단 구조 테스트
-- ✅ 사진 업로드 테스트
-- ✅ 오프라인 동기화 테스트
-- ✅ 웹 호환성 테스트
+// 데이터 복원 (파일 내용을 복사 후)
+db.importData('가족PIN', '파일내용JSON');
+```
 
-## 📚 문서
+## 🌐 브라우저 호환성
 
-- [배포 가이드](./배포_가이드.md) - Firebase Hosting 배포 방법
-- [QA 체크리스트](./QA_체크리스트.md) - 테스트 및 검증 항목
-- [기획서](./마음일기장_기획서.md) - 프로젝트 상세 기획
+- ✅ Chrome / Edge (권장)
+- ✅ Firefox
+- ✅ Safari
+- ✅ Opera
 
-## 🤝 기여하기
+**최신 버전의 브라우저 사용을 권장합니다.**
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 🔒 보안 및 프라이버시
 
-## 📄 라이선스
+- 모든 데이터는 **로컬 브라우저**에만 저장됩니다
+- 서버로 전송되는 데이터 없음
+- 가족 PIN으로 간단한 접근 제어
+- 욕설 필터 적용 (기본 필터링)
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+⚠️ **공용 컴퓨터에서 사용 시 주의**: 
+- 사용 후 반드시 로그아웃
+- 필요시 브라우저 데이터 삭제
 
-## 👥 팀
+## 🎨 커스터마이징
 
-- **기획**: 마음일기장 기획팀
-- **개발**: Flutter 개발팀
-- **디자인**: UX/UI 디자인팀
+### 색상 변경
+`styles.css` 파일에서 다음 색상 변수들을 수정하세요:
+- `#E8F5E8` - 배경색 (연한 초록)
+- `#81C784` - 주요 버튼 색상 (초록)
+- `#2E7D32` - 텍스트 강조 색상 (진한 초록)
 
-## 📞 문의
+### 욕설 필터 추가
+`utils.js` 파일의 `filterProfanity` 함수에서 필터링할 단어 추가:
+```javascript
+const profanityList = [
+    '욕설1', '욕설2', '비속어', // 여기에 추가
+];
+```
 
-프로젝트에 대한 문의사항이 있으시면 이슈를 생성해 주세요.
+## 🐛 문제 해결
+
+### 사진이 업로드되지 않아요
+- 로컬 서버로 실행하고 있는지 확인
+- 파일 크기가 5MB 이하인지 확인
+- 이미지 파일 형식인지 확인 (jpg, png, gif, webp)
+
+### 데이터가 사라졌어요
+- 브라우저 캐시를 삭제했는지 확인
+- 다른 브라우저를 사용했는지 확인
+- 시크릿 모드를 사용했는지 확인
+- F12 → Application → Local Storage에서 데이터 확인
+
+### 로그인이 안 돼요
+- 최소 4자리 이상 PIN 입력
+- 역할(부모/자녀) 선택 확인
+
+### 일기가 저장 안 돼요
+- 본인 역할에 맞는 영역에 작성했는지 확인
+- 저장 용량 확인 (localStorage는 약 5-10MB 제한)
+
+## 📊 성능 최적화
+
+### 사진 최적화
+- 업로드 시 자동으로 1200x1200px로 리사이즈
+- JPEG 80% 품질로 압축
+- Base64 인코딩으로 저장
+
+### 저장 용량 관리
+- 사진을 많이 첨부하면 저장 용량이 빠르게 차오를 수 있습니다
+- 오래된 사진은 삭제하는 것을 권장합니다
+- 저장 용량 확인: `db.getStorageUsage()`
+
+## 🔄 업데이트 내역
+
+### v1.0.0 (2025-10-17)
+- ✨ Flutter에서 순수 웹으로 전환
+- ✨ localStorage 기반 데이터 저장
+- ✨ 감정 달력, 일기 작성, 댓글 기능
+- ✨ 사진 첨부 (base64)
+- ✨ 반응형 디자인
+
+## 📞 문의 및 기여
+
+이슈나 개선 사항이 있으시면 GitHub Issues를 통해 알려주세요.
 
 ---
 
 **🌱 작은 기록이 큰 마음이 됩니다.**
+
+## 🎓 기술 스택
+
+- **HTML5**: 시맨틱 마크업
+- **CSS3**: Flexbox, Grid, Animations
+- **JavaScript (ES6+)**: Class, Promise, Async/Await
+- **localStorage API**: 클라이언트 사이드 데이터 저장
+- **File API**: 이미지 업로드 및 처리
+- **Canvas API**: 이미지 리사이징
+
+## 📚 참고 자료
+
+- [localStorage 사용법](https://developer.mozilla.org/ko/docs/Web/API/Window/localStorage)
+- [File API 가이드](https://developer.mozilla.org/ko/docs/Web/API/File_API)
+- [반응형 웹 디자인](https://developer.mozilla.org/ko/docs/Learn/CSS/CSS_layout/Responsive_Design)
+
+## 🎉 즐거운 일기 작성 되세요!
+
+마음일기장과 함께 가족 간의 정서적 유대감을 키워보세요. 
+매일의 작은 기록이 큰 추억이 됩니다. 💚
+
