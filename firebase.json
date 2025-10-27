@@ -5,7 +5,12 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "README.md"
+      "README.md",
+      "deploy.bat",
+      "deploy.ps1",
+      "firebase_setup_guide.md",
+      "0_사전설정_가이드.md",
+      "마음일기장_기획서.md"
     ],
     "rewrites": [
       {
