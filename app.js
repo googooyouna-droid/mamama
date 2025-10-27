@@ -4,32 +4,69 @@
 
 class MindDiaryApp {
     constructor() {
-        this.appState = db.loadAppState();
-        this.currentScreen = 'home';
-        this.currentDate = null;
-        this.currentDiaryEntry = null;
-        this.replyingTo = null; // 답글 작성 중인 댓글 ID
-        
-        this.init();
+        try {
+            console.log('MindDiaryApp 생성자 시작...');
+            this.appState = db.loadAppState();
+            this.currentScreen = 'home';
+            this.currentDate = null;
+            this.currentDiaryEntry = null;
+            this.replyingTo = null; // 답글 작성 중인 댓글 ID
+            
+            console.log('앱 상태:', this.appState);
+            this.init();
+        } catch (error) {
+            console.error('MindDiaryApp 생성자 오류:', error);
+            // 기본 상태로 초기화
+            this.appState = { isLoggedIn: false, familyPin: '', userRole: '' };
+            this.currentScreen = 'home';
+            this.currentDate = null;
+            this.currentDiaryEntry = null;
+            this.replyingTo = null;
+            this.init();
+        }
     }
 
     // 앱 초기화
     init() {
-        // 로딩 화면 숨기기
-        setTimeout(() => {
-            document.getElementById('loading-screen').style.display = 'none';
-            document.getElementById('app').style.display = 'block';
+        try {
+            console.log('앱 초기화 시작...');
             
-            // 로그인 상태 확인
-            if (this.appState.isLoggedIn) {
-                this.showCalendarScreen();
-            } else {
-                this.showHomeScreen();
-            }
-        }, 1000);
+            // 로딩 화면 숨기기
+            setTimeout(() => {
+                try {
+                    console.log('로딩 화면 숨기기...');
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('app').style.display = 'block';
+                    
+                    // 로그인 상태 확인
+                    if (this.appState.isLoggedIn) {
+                        console.log('로그인된 상태 - 달력 화면 표시');
+                        this.showCalendarScreen();
+                    } else {
+                        console.log('로그인되지 않은 상태 - 홈 화면 표시');
+                        this.showHomeScreen();
+                    }
+                } catch (error) {
+                    console.error('로딩 화면 숨기기 오류:', error);
+                    // 오류가 발생해도 강제로 로딩 화면 숨기기
+                    document.getElementById('loading-screen').style.display = 'none';
+                    document.getElementById('app').style.display = 'block';
+                    this.showHomeScreen();
+                }
+            }, 1000);
 
-        // 이벤트 리스너 등록
-        this.registerEventListeners();
+            // 이벤트 리스너 등록
+            this.registerEventListeners();
+            console.log('앱 초기화 완료');
+        } catch (error) {
+            console.error('앱 초기화 오류:', error);
+            // 오류가 발생해도 강제로 로딩 화면 숨기기
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+                this.showHomeScreen();
+            }, 1000);
+        }
     }
 
     // 이벤트 리스너 등록
@@ -645,6 +682,19 @@ class MindDiaryApp {
 // 앱 시작
 let app;
 document.addEventListener('DOMContentLoaded', () => {
-    app = new MindDiaryApp();
+    try {
+        console.log('DOM 로드 완료 - 앱 시작...');
+        app = new MindDiaryApp();
+        console.log('앱 시작 완료');
+    } catch (error) {
+        console.error('앱 시작 오류:', error);
+        // 오류가 발생해도 강제로 로딩 화면 숨기기
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const appContainer = document.getElementById('app');
+            if (loadingScreen) loadingScreen.style.display = 'none';
+            if (appContainer) appContainer.style.display = 'block';
+        }, 1000);
+    }
 });
 
