@@ -73,6 +73,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 40px;
+    margin: 0 auto;
 }
 
 /* 로고 섹션 */
@@ -848,6 +849,62 @@ body {
     color: #757575;
     font-size: 14px;
     line-height: 1.5;
+}
+
+/* PC 화면 최적화 */
+@media (min-width: 1200px) {
+    .home-content {
+        max-width: 600px;
+        padding: 0 20px;
+    }
+    
+    .logo-icon {
+        width: 140px;
+        height: 140px;
+        font-size: 70px;
+    }
+    
+    .app-title {
+        font-size: 42px;
+    }
+    
+    .app-subtitle {
+        font-size: 18px;
+    }
+    
+    .input-card {
+        padding: 32px;
+    }
+    
+    .pin-input {
+        font-size: 20px;
+        padding: 20px 24px;
+    }
+    
+    .enter-btn {
+        font-size: 20px;
+        padding: 20px;
+    }
+    
+    .role-cards {
+        gap: 24px;
+    }
+    
+    .role-card {
+        padding: 32px 20px;
+    }
+    
+    .role-icon {
+        font-size: 56px;
+    }
+    
+    .role-name {
+        font-size: 24px;
+    }
+    
+    .role-subtitle {
+        font-size: 16px;
+    }
 }
 
 /* 반응형 디자인 */
